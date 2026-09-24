@@ -1,0 +1,29 @@
+services:
+  go-dev:
+    build:
+      context: .
+      args:
+        USERNAME: developer
+        USER_UID: 1000
+        USER_GID: 1000
+
+    container_name: go-dev
+
+    ports:
+      - "8080:8080"
+      - "3000:3000"
+
+    volumes:
+      - ./workspace:/workspace
+      - ./code-server:/home/developer/.config/code-server
+      - go-cache:/home/developer/go
+      - go-mod-cache:/go/pkg/mod
+
+    environment:
+      TZ: Asia/Gaza
+
+    restart: unless-stopped
+
+volumes:
+  go-cache:
+  go-mod-cache:

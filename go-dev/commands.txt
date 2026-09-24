@@ -1,0 +1,8 @@
+من داخل مجلد go-dev:
+
+
+docker compose up -d --build
+ل ايقافه:
+docker compose stop
+docker compose down
+
