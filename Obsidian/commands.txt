@@ -1,0 +1,5 @@
+mkdir -p config vault
+docker compose up -d
+# بعدها فاتح https://localhost:3001
+
+
