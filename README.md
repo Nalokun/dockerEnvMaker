@@ -9,9 +9,10 @@ docker run -p 8080:8080 my-app
 mkdir -p config vault
 docker compose up -d
 # بعدها فاتحhttps://localhost:3001
+```
 ## python
+```bash
 docker compose up -d --build
-
 ```
 ## delete allenv :
 ```bash
