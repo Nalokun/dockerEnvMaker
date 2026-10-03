@@ -1,0 +1,89 @@
+services:
+
+  # ==========================================
+  # Code Server
+  # ==========================================
+  code-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: nextjs-code-server
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      PASSWORD: ${CODE_SERVER_PASSWORD:-admin123}
+
+    volumes:
+      - ./workspace:/workspace
+
+    restart: unless-stopped
+
+    networks:
+      - dev-network
+
+
+  # ==========================================
+  # Next.js
+  # ==========================================
+  nextjs:
+    image: node:22-bookworm-slim
+
+    container_name: nextjs-app
+
+    working_dir: /workspace
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - ./workspace:/workspace
+
+      # Keep node_modules inside container
+      # so host filesystem does not interfere
+      - nextjs_node_modules:/workspace/node_modules
+
+      # Next.js cache
+      - nextjs_next:/workspace/.next
+
+    environment:
+      NODE_ENV: development
+
+      # Required for Next.js file watching
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+
+    command: >
+      sh -c "
+        if [ ! -f package.json ]; then
+          echo 'No Next.js project found.';
+          echo 'Run ./build.sh to create the project.';
+          exit 1;
+        fi;
+
+        npm install &&
+        npm run dev -- --hostname 0.0.0.0
+      "
+
+    restart: unless-stopped
+
+    networks:
+      - dev-network
+
+
+# ==========================================
+# Volumes
+# ==========================================
+volumes:
+  nextjs_node_modules:
+  nextjs_next:
+
+
+# ==========================================
+# Network
+# ==========================================
+networks:
+  dev-network:
+    driver: bridge
