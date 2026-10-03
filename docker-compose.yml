@@ -1,0 +1,15 @@
+services:
+  code-server:
+    build: .
+    container_name: python-code-server
+    ports:
+      - "8080:8080"
+
+    volumes:
+      - ./workspace:/home/coder/workspace
+      - ./config:/home/coder/.config
+
+    environment:
+      - PASSWORD=python123
+
+    restart: unless-stopped
