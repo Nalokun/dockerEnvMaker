@@ -1,0 +1,22 @@
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5678:5678"
+    environment:
+      - TZ=Asia/Gaza
+      - GENERIC_TIMEZONE=Asia/Gaza
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      - N8N_WEBHOOK_URL=https://experts-horizon-necessary-meets.trycloudflare.com/
+      - N8N_PROXY_HOPS=1
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --url http://n8n:5678
+
+volumes:
+  n8n_data:
