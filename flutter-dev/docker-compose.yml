@@ -1,0 +1,12 @@
+services:
+  flutter-env:
+    build: .
+    container_name: flutter-codeserver
+    ports:
+      - "8080:8080" # منفذ code-server
+      - "3000:3000" # منفذ معاينة تطبيق Flutter
+    environment:
+      - PASSWORD=123456 # كلمة مرور الدخول إلى code-server
+    volumes:
+      - ./workspace:/home/devuser/workspace # مجلد مشاريعك
+    restart: unless-stopped
