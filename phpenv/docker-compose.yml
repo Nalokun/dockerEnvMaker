@@ -1,0 +1,16 @@
+services:
+  course:
+    build: .
+    container_name: web-course
+    ports:
+      - "8080:8080"   # المحرر (IDE)
+      - "8000:80"     # الموقع (PHP/HTML/CSS)
+    environment:
+      PASSWORD: student   # غيّرها لكلمة سر تريدها
+    volumes:
+      - ./www:/home/coder/www                     # ملفات الطالب تبقى على جهازك
+      - code-server-data:/home/coder/.local/share/code-server
+    restart: unless-stopped
+
+volumes:
+  code-server-data:

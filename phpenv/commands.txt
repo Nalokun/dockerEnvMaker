@@ -1,0 +1,4 @@
+فك الضغط وادخل إلى المجلد: cd docker-course
+شغّل: docker compose up -d --build
+افتح المحرر على http://localhost:8080 وكلمة السر student.
+افتح الموقع على http://localhost:8000.
